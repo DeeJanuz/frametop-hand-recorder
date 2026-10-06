@@ -22,6 +22,10 @@ QtObject {
     readonly property color warning: "#f0b232"
     readonly property color negative: "#f2575d"
 
+    // SteamOS's UI font, named so the layout doesn't depend on fontconfig's default (CI installs
+    // it too: tests/shoot.py checks it's there)
+    readonly property string fontFamily: "Noto Sans"
+
     // Sizes (pixels)
     readonly property int fontSize: 22
     readonly property int smallFontSize: 18

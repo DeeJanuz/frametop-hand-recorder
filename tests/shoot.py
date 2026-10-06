@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.join(REC, "tests"))
 SESSION_A = "20261002-101500"   # exported, with a deleted range
 SESSION_B = "20261003-184200"   # not exported
 WIDTH, HEIGHT = 1280, 800
+FONT = "Noto Sans"   # Theme.fontFamily, as on SteamOS
 # Messages from the platform, not the window (none here; containers without a session can
 # print these).
 BENIGN = ("This plugin does not support propagateSizeHints()", "QStandardPaths: XDG_RUNTIME_DIR")
@@ -127,6 +128,10 @@ class Shooter:
         self.wait(400)
         if (self.window.width(), self.window.height()) != (WIDTH, HEIGHT):
             self.problem(f"window is {self.window.width()}x{self.window.height()}, not {WIDTH}x{HEIGHT}")
+        from PySide6.QtGui import QFontInfo
+        family = QFontInfo(self.window.property("font")).family()
+        if family != FONT:   # listed first: another font lays out differently, so cut-offs follow
+            self.problem(f"the window's font is {family!r}, not {FONT!r}: install it (Ubuntu: fonts-noto-core)")
 
     def close(self):
         self.backend.shutdown()

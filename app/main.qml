@@ -15,6 +15,7 @@ ApplicationWindow {
     height: 800
     visible: true
     color: Theme.background
+    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontSize
 
     // For the Basic controls this window doesn't restyle (tool tips, the text areas' selection).
