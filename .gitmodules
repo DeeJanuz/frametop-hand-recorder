@@ -1,0 +1,3 @@
+[submodule "frametop"]
+	path = frametop
+	url = https://github.com/DeeJanuz/frametop.git

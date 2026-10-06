@@ -1,0 +1,13 @@
+build-essential
+binutils
+ca-certificates
+cmake
+curl
+file
+git
+libdrm-dev
+libgbm-dev
+ninja-build
+pkg-config
+python3
+zstd

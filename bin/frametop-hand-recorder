@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Start the Hand Recorder window: Frametop's backend (hands/rec/ft_handrec.py) with this repo's
+# window (app/main.qml, Qt Quick Controls), on the host, with the venv's Python and PySide6.
+# From SteamVR's "Launch a program" it runs in Steam's gamescope session (Xwayland: Qt's xcb).
+# Its output goes to ~/.local/state/frametop-hand-recorder/window.log unless it has a terminal.
+# Options go to ft_handrec.py: --page NAME, and --dry-run and --hub-dry-run for testing.
+#
+# Two layouts: an install (this file in versions/VERSION/bin, the venv two levels up), and this
+# repo's checkout for development (hands/ in the frametop submodule, the venv in .venv; only
+# --dry-run works there, as the binaries aren't built in the submodule).
+set -euo pipefail
+tree=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+if [ -f "$tree/hands/rec/ft_handrec.py" ]; then
+  hands=$tree/hands
+  venv=${FT_HANDREC_VENV:-$(dirname "$(dirname "$tree")")/venv}
+else
+  hands=$tree/frametop/hands
+  venv=${FT_HANDREC_VENV:-$tree/.venv}
+fi
+
+if [ ! -t 2 ]; then
+  logdir=${XDG_STATE_HOME:-$HOME/.local/state}/frametop-hand-recorder
+  mkdir -p "$logdir"
+  log=$logdir/window.log
+  [ -f "$log" ] && [ "$(stat -c %s "$log")" -gt 5000000 ] && mv -f "$log" "$log.1"
+  exec >>"$log" 2>&1
+  echo "== $(date -Is) $0 $*"
+fi
+if [ ! -x "$venv/bin/python" ]; then
+  echo "The Hand Recorder's Python environment is missing ($venv): run its install command again." >&2
+  exit 1
+fi
+
+# gamescope (and Plasma) give X11 through Xwayland; Qt's Wayland platform isn't what gamescope shows.
+if [ -z "${QT_QPA_PLATFORM:-}" ]; then
+  if [ -n "${DISPLAY:-}" ]; then export QT_QPA_PLATFORM=xcb; else export QT_QPA_PLATFORM=wayland; fi
+fi
+exec "$venv/bin/python" "$hands/rec/ft_handrec.py" --qml "$tree/app/main.qml" --style Basic "$@"

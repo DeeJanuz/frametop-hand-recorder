@@ -1,0 +1,5 @@
+# What the window needs on the SteamOS host. scripts/lock-requirements.sh turns this into
+# requirements.txt: every dependency pinned, with the hashes of its aarch64 wheels.
+# The versions the Frametop dev container runs the recorder with (2026-10-06).
+PySide6-Essentials==6.11.2
+huggingface_hub==1.24.0
