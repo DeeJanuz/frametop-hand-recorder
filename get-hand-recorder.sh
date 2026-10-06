@@ -154,6 +154,16 @@ if [ -n "$from" ]; then
 elif [ "$got" != "$VERSION" ]; then
   die "the download is version $got, not $VERSION"
 fi
+# Before it replaces anything: the programs must load on this SteamOS. ft-camd and ft-hands are
+# static; the headset panel uses SteamVR's libopenvr_api and the system's libraries, and ldd
+# says "not found" for a library or a glibc version this system doesn't have.
+for prog in hands/build/ft-camd hands/build/ft-hands hands/rec/build/ft-handpanel; do
+  [ -x "$unpacked/$prog" ] || die "$tarball is missing $prog"
+done
+if command -v ldd >/dev/null; then
+  missing=$(ldd "$unpacked/hands/rec/build/ft-handpanel" 2>&1 | grep 'not found' | sed 's/^[[:space:]]*//' || true)
+  [ -z "$missing" ] || die "this SteamOS can't run the release's headset panel ($missing). Is SteamVR up to date?"
+fi
 step "Installing $VERSION"
 mkdir -p "$PREFIX/versions"
 stop_units
@@ -207,7 +217,8 @@ fi
 
 step "The headset button"
 if id -nG | tr ' ' '\n' | grep -qx input; then
-  say "OK: the button on the right side of the headset works as Next, pause and resume"
+  say "OK: in a session, press the button on the right side of the headset for next or pause,"
+  say "twice to record a step again, and hold it to stop"
 else
   say "You aren't in the input group, so the recorder can't read the headset's button (the"
   say "window's buttons still work). To use it: sudo usermod -aG input $USER, then restart."

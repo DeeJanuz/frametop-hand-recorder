@@ -685,8 +685,9 @@ ApplicationWindow {
                       + "Each step waits until you're ready: press the button on the right side of the headset, "
                       + "or Next on the Session page. A 3-2-1 countdown follows, then hold the pose until the bar "
                       + "runs out. Nothing is recorded while a step waits. The headset button also pauses and "
-                      + "resumes a recording. To stop, record a step again or skip a section, open the dashboard "
-                      + "again and use the buttons on the Session page. If a keyboard is connected, this window's "
+                      + "resumes a recording. Press it twice to record a step again, or hold it to stop. To skip "
+                      + "a section, open the dashboard again and use the buttons on the Session page. If a "
+                      + "keyboard is connected, this window's "
                       + "keys work too: Space next, P pause, R record the last step again, S skip a section, "
                       + "Esc stop.\n\n"
                       + "Nothing leaves the headset. Afterwards you watch the takes in Review, delete anything "
@@ -1153,9 +1154,12 @@ ApplicationWindow {
                     font.pixelSize: Theme.smallFontSize
                     text: "The steps appear on a panel in the headset: close the dashboard to record. "
                           + (sessionView.st.button ? "The button on the right side of the headset: "
-                             + (sessionView.stepMode ? "next, " : "") + "pause or resume. " : "")
-                          + "To stop, redo a step or skip a section, open the dashboard again and use the buttons "
-                          + "below. With a keyboard connected: "
+                             + (sessionView.stepMode ? "next, " : "") + "pause or resume; twice: record the "
+                             + "last step again; hold: stop. To skip a section, open the dashboard again and use the "
+                             + "buttons below. "
+                             : "To stop, redo a step or skip a section, open the dashboard again and use the "
+                             + "buttons below. ")
+                          + "With a keyboard connected: "
                           + (sessionView.stepMode ? "Space: next · " : "")
                           + "P: pause or resume · R: record the last step again · S: skip section · Esc: stop. "
                           + "Stopping keeps what's recorded so far."

@@ -4,6 +4,8 @@ Record your hands with a Steam Frame for Frametop's open hand dataset ([DeeJanuz
 
 The recorder runs in SteamVR's dashboard. A panel in the headset guides you through hand poses, gestures, typing, objects and a few moves, while the headset's tracking cameras record. Afterwards you watch what was recorded, delete anything you don't want to share, export it, and upload it as a pull request from your own Hugging Face account. Nothing leaves the headset until you press Upload.
 
+While you record, the dashboard stays closed. Use the button on the right side of the headset: press it to start each step or to pause, press it twice to record a step again, and hold it to stop.
+
 **Status:** not released yet. The first release is being tested on the headset.
 
 ## Install

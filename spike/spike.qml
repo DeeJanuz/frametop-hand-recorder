@@ -99,8 +99,10 @@ ApplicationWindow {
                 onClicked: root.status = spike.toggleAwake()
             }
             Label {
-                text: "Headset button presses: " + spike.presses
-                font.pixelSize: 28
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: "Headset button: " + spike.presses
+                font.pixelSize: 26
             }
             Label {
                 Layout.fillWidth: true

@@ -44,28 +44,32 @@ def log(event, **data):
 class Spike(QObject):
     pressesChanged = Signal()
     stateChanged = Signal()
-    _pressed = Signal()
+    _gesture = Signal(str)
 
     def __init__(self):
         super().__init__()
-        self._presses = 0
+        self._gestures = {"press": 0, "double": 0, "hold": 0}   # session.ButtonGestures
+        self._last = ""
         self._panel = None
         self._awake = False
-        self._pressed.connect(self._on_press)
+        self._gesture.connect(self._on_gesture)
         self._button = None
         path = session.find_button(session.read_input_devices())
         log("button-device", path=path)
         if path:
-            self._button = session.ButtonReader(path, self._pressed.emit, log=lambda s: log("button", text=s)).start()
+            self._button = session.ButtonReader(path, self._gesture.emit, log=lambda s: log("button", text=s)).start()
 
-    def _on_press(self):
-        self._presses += 1
-        log("headset-button", count=self._presses)
+    def _on_gesture(self, gesture):
+        self._gestures[gesture] += 1
+        self._last = gesture
+        log("headset-button", gesture=gesture, counts=self._gestures)
         self.pressesChanged.emit()
 
-    @Property(int, notify=pressesChanged)
+    @Property(str, notify=pressesChanged)
     def presses(self):
-        return self._presses
+        g = self._gestures
+        return "%d presses, %d double presses, %d holds%s" % (
+            g["press"], g["double"], g["hold"], " (last: %s)" % self._last if self._last else "")
 
     @Property(str, constant=True)
     def info(self):
@@ -144,7 +148,8 @@ class Spike(QObject):
                 return "The panel exited (see spike.log.panel)"
             time.sleep(0.1)
         for cmd in ("title Dashboard spike", "step Panel test",
-                    "text Can you see this panel with the dashboard closed?|Press the headset button: the window counts it.",
+                    "text Can you see this panel with the dashboard closed?|Press the headset button once, twice "
+                    "quickly, and hold it for 2 s: the window counts each.",
                     "hands seen lost", "show"):
             reply = self._panel_cmd(cmd)
         log("panel", state="shown", reply=reply)
