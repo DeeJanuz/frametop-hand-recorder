@@ -6,7 +6,11 @@ The recorder runs in SteamVR's dashboard. A panel in the headset guides you thro
 
 While you record, the dashboard stays closed. Use the button on the right side of the headset: press it to start each step or to pause, press it twice to record a step again, and hold it to stop.
 
-**Status:** not released yet. The first release is being tested on the headset.
+**Status:** not released yet. A test build is out as a pre-release, [v0.1.0-rc1](https://github.com/DeeJanuz/frametop-hand-recorder/releases/tag/v0.1.0-rc1), and hasn't been tried in the headset yet. To install it, use this command in step 2 below:
+```
+curl -fsSL https://github.com/DeeJanuz/frametop-hand-recorder/releases/download/v0.1.0-rc1/get-hand-recorder.sh | bash
+```
+Please report what works and what doesn't in this repo's [issues](https://github.com/DeeJanuz/frametop-hand-recorder/issues) or the [Frametop Discord](https://discord.gg/W3X9f7z3Bc).
 
 ## Install
 
