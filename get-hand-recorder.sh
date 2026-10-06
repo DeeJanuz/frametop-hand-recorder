@@ -161,8 +161,12 @@ for prog in hands/build/ft-camd hands/build/ft-hands hands/rec/build/ft-handpane
   [ -x "$unpacked/$prog" ] || die "$tarball is missing $prog"
 done
 if command -v ldd >/dev/null; then
-  missing=$(ldd "$unpacked/hands/rec/build/ft-handpanel" 2>&1 | grep 'not found' | sed 's/^[[:space:]]*//' || true)
-  [ -z "$missing" ] || die "this SteamOS can't run the release's headset panel ($missing). Is SteamVR up to date?"
+  missing=$(ldd "$unpacked/hands/rec/build/ft-handpanel" 2>&1 | grep 'not found' |
+    sed -E "s/^[[:space:]]*([^ ]+) => not found.*/\1/; s/.*version \`([^']+)' not found.*/\1/" | sort -u |
+    paste -sd ' ' - || true)
+  [ -z "$missing" ] || die "the release's headset panel can't run on this SteamOS: it needs $missing,
+which this system doesn't have (libopenvr_api.so comes with SteamVR; a GLIBC or GLIBCXX version
+means this release needs a newer SteamOS)"
 fi
 step "Installing $VERSION"
 mkdir -p "$PREFIX/versions"
