@@ -49,7 +49,6 @@ The recorder is Frametop's: the session runner, the review and export code, the 
 | `scripts/check-binaries.sh` | Checks they'll run on SteamOS: static, or only libraries and symbol versions SteamOS has |
 | `scripts/package.sh` | The release tarball, in Frametop's layout plus `standalone.json`, `get-hand-recorder.sh` and `SHA256SUMS` |
 | `get-hand-recorder.sh` | The installer |
-| `.github/workflows/build.yml` | CI on GitHub's aarch64 runners: build, check, test, package; a `v*` tag makes a draft release |
 | `spike/` | A test window for what works in the dashboard (below) |
 
 `standalone.json` at the top of the release tells Frametop's code that it runs standalone: `session.py` then starts ft-hands directly rather than in Frametop's dev container, records the release's version in each session, and its repair hints point at the install command.
@@ -68,7 +67,7 @@ On a Frame, in a checkout with its submodule (`git clone --recursive`):
 ```
 python3 -m venv .venv
 .venv/bin/pip install --require-hashes -r requirements.txt
-frame-job --local -- scripts/build-in-container.sh             # the binaries, as CI builds them (podman)
+frame-job --local -- scripts/build-in-container.sh             # the binaries, on Ubuntu 24.04 (podman)
 frame-job --local -- scripts/build-in-container.sh --package   # and the release in dist/
 ```
 
@@ -82,10 +81,14 @@ Leave out `frame-job --local --` on a machine without frame-job.
 
 ### Releasing
 
+There's no CI yet, so releases are built on a Frame.
+
 1. Move the submodule to the Frametop commit to ship, and push.
-2. Tag `vX.Y.Z` and push the tag. CI builds it and makes a draft release.
-3. Install the draft's tarball on a Frame with `--from`, and record a quick round.
-4. Publish the release. `releases/latest/download/get-hand-recorder.sh` then points at it.
+2. Tag `vX.Y.Z` and push the tag.
+3. At the tag, with nothing uncommitted: `frame-job --local -- scripts/build-in-container.sh --package` (the version comes from the tag), then run the tests above.
+4. `gh release create vX.Y.Z dist/* --draft --verify-tag --title "Frametop Hand Recorder X.Y.Z"`.
+5. Install the draft's tarball on a Frame with `--from`, and record a quick round.
+6. Publish the release. `releases/latest/download/get-hand-recorder.sh` then points at it.
 
 ## License
 

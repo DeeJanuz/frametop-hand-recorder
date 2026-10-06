@@ -7,7 +7,7 @@
 #                       the system's libgbm, libdrm and libstdc++, as frametop/hands/rec/build.sh does
 # then runs the C++ unit tests (make check) and scripts/check-binaries.sh.
 # Runs on Ubuntu 24.04 aarch64 (glibc 2.39, as SteamOS on the Frame), with the packages in
-# scripts/build-deps.txt: CI's runner, or scripts/build-in-container.sh on the Frame.
+# scripts/build-deps.txt: scripts/build-in-container.sh on the Frame, or such a runner.
 set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 out=$root/build

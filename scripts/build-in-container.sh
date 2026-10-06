@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build on the Frame the way CI does: scripts/build.sh in an Ubuntu 24.04 container (podman,
+# Build on the Frame for the SteamOS host: scripts/build.sh in an Ubuntu 24.04 container (podman,
 # rootless), then optionally the release tarball. Heavy (ncnn's first build takes minutes), so
 # run it through frame-job:
 #   frame-job --local -- scripts/build-in-container.sh            binaries in build/hands/

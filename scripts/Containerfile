@@ -1,5 +1,5 @@
 # The release build's system, for building on the Frame (scripts/build-in-container.sh): Ubuntu
-# 24.04 aarch64 has glibc 2.39, as SteamOS on the Frame does, and CI builds on the same.
+# 24.04 aarch64 has glibc 2.39, as SteamOS on the Frame does.
 FROM docker.io/library/ubuntu:24.04
 COPY build-deps.txt /tmp/build-deps.txt
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive xargs -a /tmp/build-deps.txt \
