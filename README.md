@@ -32,10 +32,10 @@ Run the same command again to update.
 ### Uninstall
 
 ```
-curl -fsSL https://github.com/DeeJanuz/frametop-hand-recorder/releases/latest/download/get-hand-recorder.sh | bash -s -- --uninstall
+~/.local/share/frametop-hand-recorder/current/get-hand-recorder.sh --uninstall
 ```
 
-This removes the install, its Python environment and the menu entry. Your recordings and your Hugging Face login stay. The command says where they are, so you can delete them too.
+This runs the install's own copy of the installer. It removes the install, its Python environment and the menu entry. Your recordings and your Hugging Face login stay. The command says where they are, so you can delete them too.
 
 ## How it fits together
 
