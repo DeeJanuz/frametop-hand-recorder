@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Install or update the Frametop Hand Recorder on a Steam Frame, without Frametop:
-#   curl -fsSL https://github.com/DeeJanuz/frametop-hand-recorder/releases/latest/download/get-hand-recorder.sh | bash
+#   curl -fsSL https://github.com/Frametop/frametop-hand-recorder/releases/latest/download/get-hand-recorder.sh | bash
 # Then open it from SteamVR's dashboard: Launch a program -> Frametop Hand Recorder.
 #
 # It downloads this release, checks its SHA256, unpacks it into
@@ -17,7 +17,7 @@
 set -euo pipefail
 
 VERSION=0.0.0-dev   # the release's packaging fills this in
-REPO=DeeJanuz/frametop-hand-recorder
+REPO=Frametop/frametop-hand-recorder
 share=${XDG_DATA_HOME:-$HOME/.local/share}
 PREFIX=$share/frametop-hand-recorder
 ENTRY=$share/applications/frametop-hand-recorder.desktop

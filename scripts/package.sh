@@ -11,7 +11,7 @@ set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 ft=$root/frametop/hands
 built=$root/build/hands
-REINSTALL="run the Hand Recorder's install command again (github.com/DeeJanuz/frametop-hand-recorder)"
+REINSTALL="run the Hand Recorder's install command again (github.com/Frametop/frametop-hand-recorder)"
 
 version=${1:-}
 if [ -z "$version" ]; then
